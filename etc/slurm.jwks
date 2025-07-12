@@ -1,0 +1,11 @@
+{
+  "keys": [
+    {
+      "alg": "HS256",
+      "kty": "oct",
+      "kid": "<KEY_ID>",
+      "k": "<KEY_VALUE>",
+      "use": "default"
+    }
+  ]
+}

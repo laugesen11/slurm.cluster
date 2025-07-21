@@ -91,10 +91,21 @@ no.cp:
 
 setup.python:
 	@echo "Setting up Python environment..."
+	$(PYTHON_PATH)/bin/python3 -m venv $(FINAL_CLUSTER_LOCATION)/slurm_python
+	$(FINAL_CLUSTER_LOCATION)/slurm_python/bin/pip install ansible
 
 add.db.settings:
 	@echo "Adding DB settings..."
-
+	sed -i'.bkup' '/^AccountingStorageHost/cAccountingStorageHost=$(DB_SVR_NAME)' $(SLURM_CONF_FILE)
+	sed -i'.bkup' '/^AccountingStorageUser/cAccountingStorageUser=$(DB_USER)' $(SLURM_CONF_FILE)
+	sed -i'.bkup' '/^StorageUser/cStorageUser=$(DB_USER)' $(SLURMDBD_CONF_FILE)
+	sed -i'.bkup' '/^StoragePass/cStoragePass=$(DB_PASSWD)' $(SLURMDBD_CONF_FILE)
+	sed -i'.bkup' '/^StorageLoc/cStorageLoc=$(DB_NAME)' $(SLURMDBD_CONF_FILE)
+	chown $(SLURM_USER):$(SLURM_GROUP) $(SLURMDBD_CONF_FILE)
+	chmod 600 $(SLURMDBD_CONF_FILE)
 rm.db.settings:
 	@echo "Removing DB settings..."
+	sed -i'.bkup' '/^Accounting/s/^/#/' $(SLURM_CONF_FILE)
+	sed -i'.bkup' '/^JobAcct/s/^/#/' $(SLURM_CONF_FILE)
+
 

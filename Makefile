@@ -27,6 +27,9 @@ SLURM_LINK ?= '/usr/local/bin'
 # Set SLURM_USER to 'Slurm' if not set
 SLURM_USER ?= Slurm
 
+# Set SLURM_GROUP to 'Slurm' if not sett
+SLURM_GROUP ?= Slurm
+
 # Set DB_USER to default value if not set
 DB_USER ?= default_db_user
 

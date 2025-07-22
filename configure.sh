@@ -14,6 +14,7 @@ show_help() {
     echo "  --cluster-loc|-cl <path>      Cluster location"
     echo "  --bkup-master|-bm <name>      Backup master node"
     echo "  --slurm-user|-u <user>        SLURM user"
+    echo "  --slurm-group|-g <group>      SLURM group"
     echo "  --db-server|-d <server>       Database server"
     echo "  --db-passwd|-dp <passwd>      Database password"
     echo "  --db-user|-du <user>          Database user"
@@ -36,6 +37,7 @@ while [[ $# -gt 0 ]]; do
         --master-name|-m)   MASTER_NAME="$2"; shift; shift ;;
         --bkup-master|-bm)  BKUP_MASTER="$2"; shift; shift ;;
         --slurm-user|-u)    SLURM_USER="$2"; shift; shift ;;
+        --slurm-group|-g)    SLURM_GROUP="$2"; shift; shift ;;
         --db-server|-d)     DB_SERVER="$2"; shift; shift ;;
         --db-passwd|-dp)    DB_PASSWD="$2"; shift; shift ;;
         --db-user|-d)       DB_USER="$2"; shift; shift ;;
@@ -67,6 +69,7 @@ set_config_value() {
 [[ -n "CLUSTER_LOCATION" ]]     && set_config_value "CLUSTER_LOCATION" "$CLUSTER_LOCATION"
 [[ -n "$BKUP_MASTER" ]]     && set_config_value "BKUP_MASTER" "$BKUP_MASTER"
 [[ -n "$SLURM_USER" ]]      && set_config_value "SLURM_USER" "$SLURM_USER"
+[[ -n "$SLURM_GROUP" ]]      && set_config_value "SLURM_GROUP" "$SLURM_GROUP"
 [[ -n "$DB_SERVER" ]]       && set_config_value "DB_SERVER" "$DB_SERVER"
 [[ -n "$DB_PASSWD" ]]       && set_config_value "DB_PASSWD" "$DB_PASSWD"
 [[ -n "$DB_USER" ]]         && set_config_value "DB_USER" "$DB_USER"

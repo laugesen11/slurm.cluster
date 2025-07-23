@@ -81,6 +81,10 @@ deploy: $(DEPLOY_OPTIONS)
 	@echo "Deployment steps: $(DEPLOY_OPTIONS)"
 	@echo "Deploying cluster $(CLUSTER_NAME) with master $(MASTER_NAME)"
 
+$(FINAL_CLUSTER_LOCATION):
+	@echo "Setting up final cluster location..."
+	su $(SLURM_USER) -c "cp -rf $(CURDIR) $(FINAL_CLUSTER_LOCATION)"
+
 sync.tools:
 	@echo "Syncing tools..."
 	-rm -rf $(CURDIR)/tools
@@ -111,4 +115,10 @@ rm.db.settings:
 	sed -i'.bkup' '/^Accounting/s/^/#/' $(SLURM_CONF_FILE)
 	sed -i'.bkup' '/^JobAcct/s/^/#/' $(SLURM_CONF_FILE)
 
+no.bkup.master:
+	@echo "Removing backup master line..."
+	sed -i'.bkup' '/^SlurmctldHost={BKUP_MASTER}/d' $(SLURM_CONF_FILE)
 
+set.bkup.master:
+	@echo "Adding backup master line..."
+	sed -i'.bkup' 's/{BKUP_MASTER}/$(BKUP_MASTER)/' $(SLURM_CONF_FILE)

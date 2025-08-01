@@ -80,6 +80,13 @@ SLURM_JWKS_FILE := $(SLURM_CONF_DIR)/slurm.jwks
 deploy: $(DEPLOY_OPTIONS)
 	@echo "Deployment steps: $(DEPLOY_OPTIONS)"
 	@echo "Deploying cluster $(CLUSTER_NAME) with master $(MASTER_NAME)"
+	sed -i'.bkup' "s:{CLUSTER_NAME}:$(CLUSTER_NAME):" $(SLURM_CONF_FILE)
+	sed -i'.bkup' "s:{MASTER_NAME}:$(MASTER_NAME):" $(SLURM_CONF_FILE)
+	sed -i'.bkup' "s:{SLURM_USER}:$(SLURM_USER):" $(SLURM_CONF_FILE)
+	sed -i'.bkup' "s:<KEY_ID>:i$(JWK_KEY):" $(SLURM_JWKS_FILE)
+	sed -i'.bkup' "s:<KEY_VALUE>:$(JWK_PASSW):" $(SLURM_JWKS_FILE)
+	chmod 440 $(SLURM_JWKS_FILE)
+	chown $(SLURM_USER):$(SLURM_GROUP) $(SLURM_JWKS_FILE)
 
 $(FINAL_CLUSTER_LOCATION):
 	@echo "Setting up final cluster location..."
@@ -89,9 +96,6 @@ sync.tools:
 	@echo "Syncing tools..."
 	-rm -rf $(CURDIR)/tools
 	git clone https://github.com/laugesen11/slurm.tools.git $(CURDIR)/tools
-
-add.master:
-	@echo "Adding master node..."
 
 no.cp:
 	@echo "No cluster location provided; skipping copy step..."

@@ -96,9 +96,7 @@ sync.tools:
 	@echo "Syncing tools..."
 	-rm -rf $(CURDIR)/tools
 	git clone https://github.com/laugesen11/slurm.tools.git $(CURDIR)/tools
-
-no.cp:
-	@echo "No cluster location provided; skipping copy step..."
+	rm -rf $(CURDIR)/tools/.git
 
 setup.python:
 	@echo "Setting up Python environment..."
